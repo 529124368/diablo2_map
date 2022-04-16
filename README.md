@@ -17,3 +17,6 @@ golang实现，仅供学习参考。
 ![4](https://user-images.githubusercontent.com/22612129/163662166-9e8433a7-920a-406e-b614-3b35b526440a.png)
 
 ![5](https://user-images.githubusercontent.com/22612129/163662167-fe6cebb9-e567-4eb9-81f0-2884c8c99236.png)
+
+资料
+https://docs.google.com/spreadsheets/d/13Wo58CNxDQlQiZm066dAWVVU4kmgKayn0zdyvmU18AM/edit#gid=330752700
