@@ -3,7 +3,7 @@ package dt1
 import (
 	"fmt"
 	"log"
-	"test/d2interface"
+	"test/mapCreator/d2interface"
 	"test/tool"
 )
 

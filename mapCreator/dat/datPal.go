@@ -2,7 +2,7 @@ package dat
 
 import (
 	"fmt"
-	"test/d2interface"
+	"test/mapCreator/d2interface"
 )
 
 const (

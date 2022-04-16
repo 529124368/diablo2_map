@@ -5,9 +5,9 @@ import (
 	_ "image/png"
 	"os"
 	"runtime"
-	"test/dat"
-	"test/ds1"
-	"test/dt1"
+	"test/mapCreator/dat"
+	"test/mapCreator/ds1"
+	"test/mapCreator/dt1"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -23,7 +23,7 @@ var img3 [][]imgWall
 var (
 	offsetX float64 = 0
 	offsetY float64 = 0
-	Scale   float64 = 1.5
+	Scale   float64 = 1
 	disPlay bool    = true
 )
 
@@ -34,24 +34,25 @@ type imgWall struct {
 
 func init() {
 	//加载地块dt1素材
-	re, _ := os.ReadFile("floor.dt1")
+	re, _ := os.ReadFile("mapsucai/floor.dt1")
 	ss, _ := dt1.LoadDT1(re)
-	re, _ = os.ReadFile("objects.dt1")
+	re, _ = os.ReadFile("mapsucai/objects.dt1")
 	ss1, _ := dt1.LoadDT1(re)
 
-	re, _ = os.ReadFile("outdoor/objects.dt1")
+	re, _ = os.ReadFile("mapsucai/outdoor/objects.dt1")
 	ss2, _ := dt1.LoadDT1(re)
-	re, _ = os.ReadFile("outdoor/treegroups.dt1")
+	re, _ = os.ReadFile("mapsucai/outdoor/treegroups.dt1")
 	ss3, _ := dt1.LoadDT1(re)
-	re, _ = os.ReadFile("fence.dt1")
+	re, _ = os.ReadFile("mapsucai/fence.dt1")
 	ss4, _ := dt1.LoadDT1(re)
-	re, _ = os.ReadFile("outdoor/bridge.dt1")
+	re, _ = os.ReadFile("mapsucai/outdoor/bridge.dt1")
 	ss5, _ := dt1.LoadDT1(re)
-	re, _ = os.ReadFile("outdoor/stonewall.dt1")
+	re, _ = os.ReadFile("mapsucai/outdoor/stonewall.dt1")
 	ss6, _ := dt1.LoadDT1(re)
-	re, _ = os.ReadFile("outdoor/river.dt1")
+	re, _ = os.ReadFile("mapsucai/outdoor/river.dt1")
 	ss7, err := dt1.LoadDT1(re)
 
+	//wall
 	ss2.Tiles = append(ss2.Tiles, ss1.Tiles...)
 	ss2.Tiles = append(ss2.Tiles, ss3.Tiles...)
 	ss2.Tiles = append(ss2.Tiles, ss4.Tiles...)
@@ -59,16 +60,17 @@ func init() {
 	ss2.Tiles = append(ss2.Tiles, ss6.Tiles...)
 	ss2.Tiles = append(ss2.Tiles, ss7.Tiles...)
 
+	//floor
 	ss.Tiles = append(ss.Tiles, ss2.Tiles...)
 
-	//
 	if err != nil {
 		fmt.Println(err)
 	}
 	//读取DS1文件
-	dd, _ := os.ReadFile("townE1.ds1")
+	dd, _ := os.ReadFile("mapsucai/townE1.ds1")
 	d, _ := ds1.Unmarshal(dd)
 
+	//加载素材信息提取
 	// for i := 0; i < len(d.Files); i++ {
 	// 	fmt.Println(strings.ReplaceAll(d.Files[i], "tg1", "dt1"))
 	// }
@@ -191,7 +193,7 @@ func getTitleImage(tileData dt1.Tile) *ebiten.Image {
 	indexData := make([]byte, tileData.Width*int32(tileHeight))
 	dt1.DecodeTileGfxData(tileData.Blocks, &indexData, tileYOffset, tileData.Width)
 	//加载调色板
-	re, _ := os.ReadFile("pal.dat")
+	re, _ := os.ReadFile("mapsucai/pal.dat")
 	w, _ := dat.Load(re)
 	pixels := dt1.ImgIndexToRGBA(indexData, w)
 	imgss := ebiten.NewImage(int(tileData.Width), int(tileHeight))
@@ -221,7 +223,7 @@ func getWallTitleImage(tileData dt1.Tile, tile *ds1.Tile) (*ebiten.Image, int) {
 	indexData := make([]byte, 160*realHeight)
 	dt1.DecodeTileGfxData(tileData.Blocks, &indexData, tileYOffset, 160)
 	//加载调色板
-	re, _ := os.ReadFile("pal.dat")
+	re, _ := os.ReadFile("mapsucai/pal.dat")
 	w, _ := dat.Load(re)
 	pixels := dt1.ImgIndexToRGBA(indexData, w)
 	imgss := ebiten.NewImage(160, int(realHeight))
@@ -353,6 +355,6 @@ func (a *ATest) Layout(ow, oh int) (int, int) {
 }
 func main() {
 	ebiten.SetWindowSize(1200, 780)
-	ebiten.SetWindowTitle("diablo Map title dump  QQ:1326741056")
+	ebiten.SetWindowTitle("diablo Map title dump")
 	ebiten.RunGame(&ATest{})
 }
